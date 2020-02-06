@@ -42,6 +42,18 @@ class App extends Component {
         });
     };
 
+    // Controlled inputs - handle the value of the input in state
+    // validate the form
+    // render errors
+    handleAddFolder = () => {
+        // when you click the Add Folder button
+        // open up
+    };
+
+    handleAddNote = () => {
+
+    };
+
     renderNavRoutes() {
         return (
             <>
@@ -74,13 +86,25 @@ class App extends Component {
                 <Route path="/note/:noteId" component={NotePageMain} />
             </>
         );
-    }
+    } 
+    // Create 2 (validated) forms to add folders and add notes to Noteful
+    // Hookup the forms to make POST requests to the API
+    // Add an error boundary
+    //-----------------------
+    // STEP 1: Create 2 validated forms
+    // Create context(shape) DONE - shapes in ApiContext.js
+    // Create contextValue
+    // Provide the values by using .Provider
+    //      -create the event handler
+    // Consume/retrieve the values in context using .Consumer or static method
 
     render() {
         const value = {
             notes: this.state.notes,
             folders: this.state.folders,
-            deleteNote: this.handleDeleteNote
+            deleteNote: this.handleDeleteNote,
+            addFolder: this.handleAddFolder,
+            addNote: this.handleAddNote
         };
         return (
             <ApiContext.Provider value={value}>
