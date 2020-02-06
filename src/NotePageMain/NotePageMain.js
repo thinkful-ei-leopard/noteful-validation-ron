@@ -1,44 +1,39 @@
 import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import CircleButton from '../CircleButton/CircleButton'
+import Note from '../Note/Note'
 import ApiContext from '../ApiContext'
-import { findNote, findFolder } from '../notes-helpers'
-import './NotePageNav.css'
+import { findNote } from '../notes-helpers'
+import './NotePageMain.css'
 
-export default class NotePageNav extends React.Component {
+export default class NotePageMain extends React.Component {
   static defaultProps = {
-    history: {
-      goBack: () => { }
-    },
     match: {
       params: {}
     }
   }
-  static contextType = ApiContext;
+  static contextType = ApiContext
+
+  handleDeleteNote = noteId => {
+    this.props.history.push(`/`)
+  }
 
   render() {
-    const { notes, folders, } = this.context
+    const { notes=[] } = this.context
     const { noteId } = this.props.match.params
-    const note = findNote(notes, noteId) || {}
-    const folder = findFolder(folders, note.folderId)
+    const note = findNote(notes, noteId) || { content: '' }
     return (
-      <div className='NotePageNav'>
-        <CircleButton
-          tag='button'
-          role='link'
-          onClick={() => this.props.history.goBack()}
-          className='NotePageNav__back-button'
-        >
-          <FontAwesomeIcon icon='chevron-left' />
-          <br />
-          Back
-        </CircleButton>
-        {folder && (
-          <h3 className='NotePageNav__folder-name'>
-            {folder.name}
-          </h3>
-        )}
-      </div>
+      <section className='NotePageMain'>
+        <Note
+          id={note.id}
+          name={note.name}
+          modified={note.modified}
+          onDeleteNote={this.handleDeleteNote}
+        />
+        <div className='NotePageMain__content'>
+          {note.content.split(/\n \r|\n/).map((para, i) =>
+            <p key={i}>{para}</p>
+          )}
+        </div>
+      </section>
     )
   }
 }
