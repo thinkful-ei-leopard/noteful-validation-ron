@@ -25,6 +25,9 @@ export default class AddNote extends React.Component {
             }
         };
     }
+
+    static contextType = ApiContext;
+
     // A form to capture the name, content and folder for a new Note. Submit to the POST /notes endpoint on the server.
     // Add validation to ensure that the name of the note is not left blank. The folder should be selected from a list of existing folders. 
     // Ensure that errors are properly handled. 
@@ -53,16 +56,17 @@ export default class AddNote extends React.Component {
         this.setState({
             folder: {value: folder, touched: true}
         });
+        console.log(folder);
     }
 
     createFolderList() {
-        const folders = this.context;
+        const folders = this.context.folders;
         console.log(folders);
-        // return folders.map(folder => {
-        //     return (
-        //         <option value={folder.name}>{folder.name}</option>
-        //     );
-        // });
+        return folders.map(folder => {
+            return (
+                <option key={folder.id} value={folder.name}>{folder.name}</option>
+            );
+        });
     }
     validateName() {
         // Validates the name/title of the new note
@@ -147,7 +151,7 @@ export default class AddNote extends React.Component {
                  <label>Where do you want to save this new note?</label>
                     <select
                     value={this.state.folder.value}
-                    onChange={e => this.updateSelectedFolder(e.target)}>
+                    onChange={e => this.updateFolder(e.target)}>
                     {this.createFolderList()}
                     </select>
                 </div>
