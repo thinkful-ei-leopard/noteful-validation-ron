@@ -5,6 +5,8 @@ import NoteListNav from '../NoteListNav/NoteListNav';
 import NotePageNav from '../NotePageNav/NotePageNav';
 import NoteListMain from '../NoteListMain/NoteListMain';
 import NotePageMain from '../NotePageMain/NotePageMain';
+import AddNote from '../AddNote/AddNote';
+import AddFolder from '../AddFolder/AddFolder';
 import ApiContext from '../ApiContext';
 import config from '../config';
 import './App.css';
@@ -45,9 +47,15 @@ class App extends Component {
     // Controlled inputs - handle the value of the input in state
     // validate the form
     // render errors
-    handleAddFolder = () => {
-        // when you click the Add Folder button
-        // open up
+
+    // when you click on a circle button currently it changes the path to "add-folder" or "add-note"
+    // on that page, render the form, and give the user the ability to submit
+    // then validate it for errors
+    handleAddFolder = folder => {
+        this.setState({
+            folders: this.state.folders.push(folder)
+            // or this: folders: [...this.state.folders, folder] 
+        });
     };
 
     handleAddNote = () => {
@@ -71,7 +79,7 @@ class App extends Component {
             </>
         );
     }
-
+    // adding the AddFolder and AddNote route(view) to the Main render section
     renderMainRoutes() {
         return (
             <>
@@ -84,6 +92,8 @@ class App extends Component {
                     />
                 ))}
                 <Route path="/note/:noteId" component={NotePageMain} />
+                <Route path="/add-folder" component={AddFolder} />
+                <Route path="/add-note" component={AddNote} />
             </>
         );
     } 
