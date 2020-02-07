@@ -20,7 +20,7 @@ export default class AddNote extends React.Component {
                 touched: false
             },
             folder: {
-                value: '',
+                value: 'Important', // This works for now, but I need a good way to set the default value of state in here for the first folder.
                 touched: false
             }
         };
@@ -56,12 +56,10 @@ export default class AddNote extends React.Component {
         this.setState({
             folder: {value: folder, touched: true}
         });
-        console.log(folder);
     }
 
     createFolderList() {
         const folders = this.context.folders;
-        console.log(folders);
         return folders.map(folder => {
             return (
                 <option key={folder.id} value={folder.name}>{folder.name}</option>
@@ -159,8 +157,7 @@ export default class AddNote extends React.Component {
                 <div>
                  <label>Where do you want to save this new note?</label>
                     <select
-                    value={this.state.folder.value}
-                    defaultValue={'5'}
+                    value={this.state.folder.value || 2}
                     onChange={e => this.updateFolder(e.target.value)}>
                     {this.createFolderList()}
                     </select>
