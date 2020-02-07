@@ -8,8 +8,8 @@ import NotePageMain from '../NotePageMain/NotePageMain';
 import AddNote from '../AddNote/AddNote';
 import AddFolder from '../AddFolder/AddFolder';
 import ApiContext from '../ApiContext';
+import ErrorBoundary from '../ErrorBoundary';
 import config from '../config';
-import ValidationError from '../ValidationError';
 import './App.css';
 
 class App extends Component {
@@ -56,7 +56,6 @@ class App extends Component {
         console.log(folder)
         this.setState({
             folders: [...this.state.folders, folder]
-            // or this: folders: [...this.state.folders, folder] 
         });
     };
 
@@ -70,6 +69,7 @@ class App extends Component {
     renderNavRoutes() {
         return (
             <>
+            <ErrorBoundary>
                 {['/', '/folder/:folderId'].map(path => (
                     <Route
                         exact
@@ -81,6 +81,7 @@ class App extends Component {
                 <Route path="/note/:noteId" component={NotePageNav} />
                 <Route path="/add-folder" component={NotePageNav} />
                 <Route path="/add-note" component={NotePageNav} />
+            </ErrorBoundary>
             </>
         );
     }
@@ -88,6 +89,7 @@ class App extends Component {
     renderMainRoutes() {
         return (
             <>
+            <ErrorBoundary>
                 {['/', '/folder/:folderId'].map(path => (
                     <Route
                         exact
@@ -99,6 +101,7 @@ class App extends Component {
                 <Route path="/note/:noteId" component={NotePageMain} />
                 <Route path="/add-folder" component={AddFolder} />
                 <Route path="/add-note" component={AddNote} />
+            </ErrorBoundary>
             </>
         );
     } 
