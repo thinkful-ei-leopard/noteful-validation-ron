@@ -3,6 +3,7 @@ import React from 'react';
 import ApiContext from '../ApiContext';
 import config from '../config';
 import './AddFolder.css';
+import ValidationError from '../ValidationError';
 
 export default class AddFolder extends React.Component {
 
@@ -11,7 +12,8 @@ export default class AddFolder extends React.Component {
 
         this.state = {
             name: {
-                value: ''
+                value: '',
+                touched: false
               }
         };
     }
@@ -19,7 +21,7 @@ export default class AddFolder extends React.Component {
     updateName(name) {
         // event.target.value of the input
         // Whenever the user types anything into the input, we update the state! each letter at a time!
-        this.setState({name: {value: name}});
+        this.setState({name: {value: name, touched: true}});
         console.log(name);
       }
      
@@ -49,6 +51,7 @@ export default class AddFolder extends React.Component {
     // use that input to make a POST fetch request
     // do error handling
     render() {
+        const nameError = this.validateName();
         return (
             <form className="AddFolder" onSubmit={e => this.handleSubmit(e)}>
                 <h2>Add a New Folder</h2>
@@ -62,6 +65,7 @@ export default class AddFolder extends React.Component {
                     id="add-folder-name"
                     onChange={e => this.updateName(e.target.value)}
                     required/>
+                {this.state.name.touched && (<ValidationError message={nameError} />)}
                 </div>
 
         
