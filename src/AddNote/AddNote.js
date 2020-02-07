@@ -20,7 +20,8 @@ export default class AddNote extends React.Component {
                 touched: false
             },
             folder: {
-                value: 'Important', // This works for now, but I need a good way to set the default value of state in here for the first folder.
+                value: 'Important',
+                folderId: 'b0715efe-ffaf-11e8-8eb2-f2801f1b9fd1', // This works for now, but I need a good way to set the default value of state in here for the first folder.
                 touched: false
             }
         };
@@ -53,8 +54,9 @@ export default class AddNote extends React.Component {
     // state will be updated
     // state folder needs a default value..
     updateFolder(folder) {
+        console.log(folder[folder.selectedIndex].id)
         this.setState({
-            folder: {value: folder, touched: true}
+            folder: {value: folder, folderId: folder[folder.selectedIndex].id, touched: true}
         });
     }
 
@@ -62,7 +64,10 @@ export default class AddNote extends React.Component {
         const folders = this.context.folders;
         return folders.map(folder => {
             return (
-                <option key={folder.id} value={folder.name}>{folder.name}</option>
+                <option 
+                    key={folder.id}
+                    id={folder.id} 
+                    value={folder.name}>{folder.name}</option>
             );
         });
     }
@@ -70,7 +75,7 @@ export default class AddNote extends React.Component {
     validateFolder() {
         const selectedFolder = this.state.folder.value;
         if(!selectedFolder) {
-            return console.log('no default folder');
+            return ('no selected folder');
         }
     }
 
@@ -100,11 +105,39 @@ export default class AddNote extends React.Component {
 
     handleSubmit(event){
         event.preventDefault();
-        // const { name, password, repeatPassword } = this.state;
-        const name = this.state;
+        const { name, content, folder } = this.state;
         console.log('Name: ', name);
+        console.log('Content: ', content);
+        console.log('Folder: ', folder);
 
         // potentially submit these values to the server here
+        // const data = {
+        //     name: title,
+        //     modified: date,
+        //     content: content,
+        //     folderId: folderId
+        //   };
+      
+        //   fetch(`${config.API_ENDPOINT}/notes`, {
+        //     method: 'POST',
+        //     headers: {
+        //       'content-type': 'application/json'
+        //     },
+        //     body: JSON.stringify(data)
+        //   }).then(res => {
+        //     if (!res.ok) {
+        //       throw new Error('there was an error');
+        //     }
+        //     return res.json();
+        //   })
+        //   .then((data) => {
+        //     this.context.addNote(data)
+        //     this.props.history.push('/')
+        //   })
+        //   .catch(err => {
+        //     console.log(err.message)
+        //   });
+        // }
 
     }
 
@@ -157,8 +190,8 @@ export default class AddNote extends React.Component {
                 <div>
                  <label>Where do you want to save this new note?</label>
                     <select
-                    value={this.state.folder.value || 2}
-                    onChange={e => this.updateFolder(e.target.value)}>
+                    value={this.state.folder.value}
+                    onChange={e => this.updateFolder(e.target)}>
                     {this.createFolderList()}
                     </select>
                     {console.log(folderError)}
