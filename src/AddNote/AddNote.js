@@ -46,12 +46,12 @@ export default class AddNote extends React.Component {
         this.setState({
             content: {value: content, touched: true}
         });
-        console.log(content);
     }
 
     // User should get a dropdown containing All current folders that exist 
     // User will select a folder from dropdown
     // state will be updated
+    // state folder needs a default value..
     updateFolder(folder) {
         this.setState({
             folder: {value: folder, touched: true}
@@ -68,6 +68,14 @@ export default class AddNote extends React.Component {
             );
         });
     }
+
+    validateFolder() {
+        const selectedFolder = this.state.folder.value;
+        if(!selectedFolder) {
+            return console.log('no default folder');
+        }
+    }
+
     validateName() {
         // Validates the name/title of the new note
         // this removes any whitespace from value and makes sure the value isn't an empty string
@@ -114,6 +122,7 @@ export default class AddNote extends React.Component {
 
         const nameError = this.validateName();
         const contentError = this.validateContent();
+        const folderError = this.validateFolder();
         return (
             <form className="AddNote" onSubmit={e => this.handleSubmit(e)}>
                 <h2>Add a New Note</h2>
@@ -151,9 +160,12 @@ export default class AddNote extends React.Component {
                  <label>Where do you want to save this new note?</label>
                     <select
                     value={this.state.folder.value}
-                    onChange={e => this.updateFolder(e.target)}>
+                    defaultValue={'5'}
+                    onChange={e => this.updateFolder(e.target.value)}>
                     {this.createFolderList()}
                     </select>
+                    {console.log(folderError)}
+                    {this.state.content.touched && (<ValidationError message={folderError} />)}
                 </div>
         
                 <div className="AddNote__button__group">
