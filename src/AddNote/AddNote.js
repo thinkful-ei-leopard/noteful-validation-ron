@@ -111,37 +111,36 @@ export default class AddNote extends React.Component {
         const name = this.state.name.value;
         const content = this.state.content.value;
         const folderId = this.state.folder.folderId;
-        console.log('Name: ', name);
-        console.log('Content: ', content);
-        console.log('FolderId: ', folderId);
+        const modified = new Date();
 
        // potentially submit these values to the server here
-        // const data = {
-        //     name: title,
-        //     modified: date,
-        //     content: content,
-        //     folderId: folderId
-        //   };
+        const bodyData = {
+            name,
+            modified,
+            folderId,
+            content,
+          };
+          
       
-        //   fetch(`${config.API_ENDPOINT}/notes`, {
-        //     method: 'POST',
-        //     headers: {
-        //       'content-type': 'application/json'
-        //     },
-        //     body: JSON.stringify(data)
-        //   }).then(res => {
-        //     if (!res.ok) {
-        //       throw new Error('there was an error');
-        //     }
-        //     return res.json();
-        //   })
-        //   .then((data) => {
-        //     this.context.addNote(data)
-        //     this.props.history.push('/')
-        //   })
-        //   .catch(err => {
-        //     console.log(err.message)
-        //   });
+          fetch(`${config.API_ENDPOINT}/notes`, {
+            method: 'POST',
+            headers: {
+              'content-type': 'application/json'
+            },
+            body: JSON.stringify(bodyData)
+          }).then(res => {
+            if (!res.ok) {
+              throw new Error(`Error with POST request: ${res}`);
+            }
+            return res.json();
+          })
+          .then((data) => {
+            this.context.addNote(data)
+            this.props.history.push('/')
+          })
+          .catch(err => {
+            console.log(err.message)
+          });
     }
 
 
