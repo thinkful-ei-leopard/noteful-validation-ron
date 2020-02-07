@@ -56,7 +56,9 @@ export default class AddNote extends React.Component {
     updateFolder(folder) {
         console.log(folder[folder.selectedIndex].id)
         this.setState({
-            folder: {value: folder, folderId: folder[folder.selectedIndex].id, touched: true}
+            folder: {value: folder, 
+                     folderId: folder[folder.selectedIndex].id, 
+                     touched: true}
         });
     }
 
@@ -105,12 +107,15 @@ export default class AddNote extends React.Component {
 
     handleSubmit(event){
         event.preventDefault();
-        const { name, content, folder } = this.state;
+        //const { name, content, folder } = this.state;
+        const name = this.state.name.value;
+        const content = this.state.content.value;
+        const folderId = this.state.folder.folderId;
         console.log('Name: ', name);
         console.log('Content: ', content);
-        console.log('Folder: ', folder);
+        console.log('FolderId: ', folderId);
 
-        // potentially submit these values to the server here
+       // potentially submit these values to the server here
         // const data = {
         //     name: title,
         //     modified: date,
@@ -137,9 +142,9 @@ export default class AddNote extends React.Component {
         //   .catch(err => {
         //     console.log(err.message)
         //   });
-        // }
-
     }
+
+
 
     // render the page. 
     // Get user input from page
