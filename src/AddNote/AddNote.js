@@ -9,7 +9,7 @@ export default class AddNote extends React.Component {
 
     constructor(props) {
         super(props)
-
+        
         this.state = {
             name: {
                 value: '',
@@ -37,7 +37,6 @@ export default class AddNote extends React.Component {
         this.setState({
             name: {value: name, touched: true}
         });
-        //console.log(name);
     }
 
     updateContent(content) {
@@ -47,12 +46,24 @@ export default class AddNote extends React.Component {
         console.log(content);
     }
 
+    // User should get a dropdown containing All current folders that exist 
+    // User will select a folder from dropdown
+    // state will be updated
     updateFolder(folder) {
         this.setState({
             folder: {value: folder, touched: true}
         });
     }
 
+    createFolderList() {
+        const folders = this.context;
+        console.log(folders);
+        // return folders.map(folder => {
+        //     return (
+        //         <option value={folder.name}>{folder.name}</option>
+        //     );
+        // });
+    }
     validateName() {
         // Validates the name/title of the new note
         // this removes any whitespace from value and makes sure the value isn't an empty string
@@ -93,8 +104,10 @@ export default class AddNote extends React.Component {
     // do error handling
 
     // A form to capture the name, content and folder for a new Note. Submit to the POST /notes endpoint on the server.
-    // Add validation to ensure that the name of the note is not left blank. The folder should be selected from a list of existing folders. 
+    // Add validation to ensure that the name of the note is not left blank. The folder should be selected from a list of existing folders.
+
     render() {
+
         const nameError = this.validateName();
         const contentError = this.validateContent();
         return (
@@ -130,7 +143,14 @@ export default class AddNote extends React.Component {
                     {this.state.content.touched && (<ValidationError message={contentError} />)}
                 </div>
 
-                {/* DROPDOWN FOR FOLDER SELECT HERE */}
+                <div>
+                 <label>Where do you want to save this new note?</label>
+                    <select
+                    value={this.state.folder.value}
+                    onChange={e => this.updateSelectedFolder(e.target)}>
+                    {this.createFolderList()}
+                    </select>
+                </div>
         
                 <div className="AddNote__button__group">
                     <button type="reset" className="AddNote__button">
