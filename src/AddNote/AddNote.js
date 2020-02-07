@@ -134,8 +134,8 @@ export default class AddNote extends React.Component {
             }
             return res.json();
           })
-          .then((data) => {
-            this.context.addNote(data);
+          .then((resp) => {
+            this.context.addNote(resp);
             this.props.history.push('/');
           })
           .catch(err => {

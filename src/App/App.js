@@ -53,8 +53,9 @@ class App extends Component {
     // on that page, render the form, and give the user the ability to submit
     // then validate it for errors
     handleAddFolder = folder => {
+        console.log(folder)
         this.setState({
-            folders: this.state.folders.push(folder)
+            folders: [...this.state.folders, folder]
             // or this: folders: [...this.state.folders, folder] 
         });
     };
@@ -62,7 +63,7 @@ class App extends Component {
     handleAddNote = note => {
     
         this.setState({
-            notes: this.state.notes.push(note) // adds our new note to the end of the notes array
+            notes: [...this.state.notes, note] // adds our new note to the end of the notes array
         });
     };
 

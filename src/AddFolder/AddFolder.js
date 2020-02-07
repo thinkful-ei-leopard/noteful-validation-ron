@@ -18,12 +18,13 @@ export default class AddFolder extends React.Component {
         };
     }
 
+    static contextType = ApiContext;
+    
     updateName(name) {
         // Whenever the user types anything into the input, we update the state! each letter at a time!
         // When the user types ANYTHING we set the value of touched to "true" from "false" this way we know
         // when to correctly render our ValidationError
         this.setState({name: {value: name, touched: true}});
-        console.log(name);
       }
      
     validateName() {
@@ -38,11 +39,29 @@ export default class AddFolder extends React.Component {
 
     handleSubmit(event){
         event.preventDefault();
-        // const { name, password, repeatPassword } = this.state;
-        const name = this.state;
-        console.log('Name: ', name);
+ 
+        const data = {name: this.state.name.value};
 
-        // potentially submit these values to the server here
+          fetch(`${config.API_ENDPOINT}/folders`, {
+            method: 'POST',
+            headers: {
+              'content-type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          })
+          .then(res => {
+            if (!res.ok) {
+              throw new Error(`Error with POST request: ${res}`);
+            }
+            return res.json();
+          })
+          .then((resp) => {
+            this.context.addFolder(resp);
+            this.props.history.push('/');
+          })
+          .catch(err => {
+            console.log(err.message);
+          });
 
     }
 
@@ -52,6 +71,7 @@ export default class AddFolder extends React.Component {
     // do error handling
     render() {
         const nameError = this.validateName();
+        
         return (
             <form className="AddFolder" onSubmit={e => this.handleSubmit(e)}>
                 <h2>Add a New Folder</h2>
