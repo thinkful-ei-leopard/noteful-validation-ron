@@ -114,7 +114,7 @@ export default class AddNote extends React.Component {
         const modified = new Date();
 
        // potentially submit these values to the server here
-        const bodyData = {
+        const data = {
             name,
             modified,
             folderId,
@@ -127,7 +127,7 @@ export default class AddNote extends React.Component {
             headers: {
               'content-type': 'application/json'
             },
-            body: JSON.stringify(bodyData)
+            body: JSON.stringify(data)
           }).then(res => {
             if (!res.ok) {
               throw new Error(`Error with POST request: ${res}`);
@@ -135,11 +135,11 @@ export default class AddNote extends React.Component {
             return res.json();
           })
           .then((data) => {
-            this.context.addNote(data)
-            this.props.history.push('/')
+            this.context.addNote(data);
+            this.props.history.push('/');
           })
           .catch(err => {
-            console.log(err.message)
+            console.log(err.message);
           });
     }
 
@@ -149,10 +149,6 @@ export default class AddNote extends React.Component {
     // Get user input from page
     // use that input to make a POST fetch request
     // do error handling
-
-    // A form to capture the name, content and folder for a new Note. Submit to the POST /notes endpoint on the server.
-    // Add validation to ensure that the name of the note is not left blank. The folder should be selected from a list of existing folders.
-
     render() {
 
         const nameError = this.validateName();
@@ -198,7 +194,6 @@ export default class AddNote extends React.Component {
                     onChange={e => this.updateFolder(e.target)}>
                     {this.createFolderList()}
                     </select>
-                    {console.log(folderError)}
                     {this.state.content.touched && (<ValidationError message={folderError} />)}
                 </div>
         

@@ -59,8 +59,11 @@ class App extends Component {
         });
     };
 
-    handleAddNote = () => {
-
+    handleAddNote = note => {
+    
+        this.setState({
+            notes: this.state.notes.push(note) // adds our new note to the end of the notes array
+        });
     };
 
     renderNavRoutes() {
@@ -94,10 +97,7 @@ class App extends Component {
                 ))}
                 <Route path="/note/:noteId" component={NotePageMain} />
                 <Route path="/add-folder" component={AddFolder} />
-                <Route 
-                    path="/add-note" 
-                    component={AddNote}
-                    />} />
+                <Route path="/add-note" component={AddNote} />
             </>
         );
     } 
