@@ -19,8 +19,9 @@ export default class AddFolder extends React.Component {
     }
 
     updateName(name) {
-        // event.target.value of the input
         // Whenever the user types anything into the input, we update the state! each letter at a time!
+        // When the user types ANYTHING we set the value of touched to "true" from "false" this way we know
+        // when to correctly render our ValidationError
         this.setState({name: {value: name, touched: true}});
         console.log(name);
       }
@@ -30,10 +31,9 @@ export default class AddFolder extends React.Component {
         const name = this.state.name.value.trim(); 
         if(name.length === 0) {
             return 'Please enter a folder name';
-        } else if(name.length > 30) {
-            return 'Please keep the folder name under 30 characters; brevity is the soul of wit.'
+        } else if(name.length > 25) {
+            return 'Please keep the folder name under 25 characters; brevity is the soul of wit.'
         }
-
     }
 
     handleSubmit(event){
@@ -63,8 +63,10 @@ export default class AddFolder extends React.Component {
                     className="AddFolder__control"
                     name="add-folder-name" 
                     id="add-folder-name"
+                    // Each time the user types anything into input, we update the state. This allows real-time error messages (ie before submit)
                     onChange={e => this.updateName(e.target.value)}
                     required/>
+                {/* Conditional rendering depending on whether the user has changed the input or not */}
                 {this.state.name.touched && (<ValidationError message={nameError} />)}
                 </div>
 
@@ -73,7 +75,11 @@ export default class AddFolder extends React.Component {
                     <button type="reset" className="AddFolder__button">
                         Cancel
                     </button>
-                    <button type="submit" className="AddFolder__button">
+                    <button 
+                        type="submit" 
+                        className="AddFolder__button"
+                        // if anything triggers our validation method, the button gets disabled
+                        disabled={this.validateName()}>
                         Save
                     </button>
                 </div>
