@@ -10,8 +10,14 @@ export default class AddFolder extends React.Component {
         super(props)
 
         this.state = {
-            
+
         };
+    }
+
+    handleSubmit(event){
+        event.preventDefault();
+        const name = event.target.name.value;
+        console.log('Name: ', name);
     }
 
     // render the page. 
@@ -20,27 +26,27 @@ export default class AddFolder extends React.Component {
     // do error handling
     render() {
         return (
-            <form className="AddFolder">
-            <h2>Add a New Folder</h2>
-            <div className="AddFolder__hint">* required field</div>  
-            <div className="form-group">
-              <label htmlFor="name">Folder name *</label>
-              <input 
-                type="text" 
-                className="AddFolder__control"
-                name="name" 
-                id="name"/>
-            </div>
+            <form className="AddFolder" onSubmit={e => this.handleSubmit(e)}>
+                <h2>Add a New Folder</h2>
+                <div className="AddFolder__hint">* required field</div>  
+                <div className="form-group">
+                <label htmlFor="name">Folder name *</label>
+                <input 
+                    type="text" 
+                    className="AddFolder__control"
+                    name="name" 
+                    id="name"/>
+                </div>
 
-     
-            <div className="AddFolder__button__group">
-                <button type="reset" className="AddFolder__button">
-                    Cancel
-                </button>
-                <button type="submit" className="AddFolder__button">
-                    Save
-                </button>
-            </div>
+        
+                <div className="AddFolder__button__group">
+                    <button type="reset" className="AddFolder__button">
+                        Cancel
+                    </button>
+                    <button type="submit" className="AddFolder__button">
+                        Save
+                    </button>
+                </div>
           </form>
         );
     }
