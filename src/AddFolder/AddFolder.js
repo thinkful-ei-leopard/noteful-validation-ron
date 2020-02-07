@@ -8,11 +8,7 @@ export default class AddFolder extends React.Component {
 
     constructor(props) {
         super(props)
-        // using React.createRef is another way to reference get the value from an event
-        // instead of using event.target.name.value. You then put ref={this.nameInput}
-        // One advantage is you dont need to know the "name" of the element since you set it to "this.nameInput"
-        // and reference it with this.nameInput.current.value instead of event.target.NAME.value
-        this.nameInput = React.createRef();
+
         this.state = {
             name: {
                 value: ''
@@ -21,13 +17,13 @@ export default class AddFolder extends React.Component {
     }
 
     updateName(name) {
+        // event.target.value of the input
         this.setState({name: {value: name}});
+        console.log(name);
       }
      
     handleSubmit(event){
         event.preventDefault();
-        //const name = event.target.name.value;
-        // const name = this.nameInput.current.value;
         // const { name, password, repeatPassword } = this.state;
         const name = this.state;
         console.log('Name: ', name);
@@ -49,7 +45,7 @@ export default class AddFolder extends React.Component {
                     className="AddFolder__control"
                     name="add-folder-name" 
                     id="add-folder-name"
-                    onChange={e => this.updateName(e)}
+                    onChange={e => this.updateName(e.target.value)}
                     required/>
                 </div>
 
